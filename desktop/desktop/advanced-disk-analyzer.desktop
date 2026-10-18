@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Advanced Disk Analyzer
+Comment=See what is using space on your disk
+Exec=advanced-disk-analyzer
+Icon=advanced-disk-analyzer
+Terminal=false
+Categories=Utility;
+Keywords=disk;space;storage;usage;treemap;

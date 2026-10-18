@@ -1,0 +1,9 @@
+#!/bin/sh
+# Stand-in for cPanel's uapi command, used only by the local tests.
+case "$2 $3" in
+  "Quota get_quota_info") echo '{"result":{"status":1,"data":{"megabytes_used":12.5,"megabyte_limit":2048,"inodes_used":140,"inode_limit":1000000}}}' ;;
+  "Mysql list_databases") echo '{"result":{"status":1,"data":[{"database":"kb_shop","disk_usage":52428800,"users":["kb_admin"]},{"database":"kb_blog","disk_usage":1048576,"users":[]}]}}' ;;
+  "Postgresql list_databases") echo '{"result":{"status":0,"errors":["PostgreSQL is not installed"]}}' ;;
+  "Email list_pops_with_disk") echo '{"result":{"status":1,"data":[{"email":"info@example.com","_diskused":3145728,"_diskquota":1073741824},{"email":"sales@example.com","diskused":"0.5","diskquota":"unlimited"}]}}' ;;
+  *) echo '{"result":{"status":0}}' ;;
+esac

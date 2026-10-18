@@ -1,0 +1,13 @@
+[
+    {
+        "id": "advanced_disk_analyzer",
+        "name": "Advanced Disk Analyzer",
+        "type": "link",
+        "group_id": "files",
+        "order": 2,
+        "uri": "advanced_disk_analyzer/index.live.php",
+        "target": "_self",
+        "icon": "advanced_disk_analyzer.svg",
+        "featuremanager": true
+    }
+]

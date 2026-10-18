@@ -1,0 +1,5 @@
+target/
+dist/
+*.sqlite
+.diskanalyzer/
+__pycache__/
