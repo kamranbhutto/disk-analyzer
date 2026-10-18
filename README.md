@@ -158,4 +158,4 @@ Bug reports, ideas and pull requests are welcome: open an
 
 ## Author
 
-Kamran Bhutto · kamranbhutto@gmail.com
+Kamran Bhutto
