@@ -11,6 +11,9 @@ cp INSTALL.md dist/tmp/disk-analyzer/
 (cd dist/tmp && zip -qr ../advanced-disk-analyzer.zip disk-analyzer)
 
 cp app/*.php app/ui.html dist/tmp/plugin/app/
+mkdir -p dist/tmp/plugin/whm
+cp whm/*.php whm/ui.html dist/tmp/plugin/whm/
+cp plugin/whm-appconfig.conf plugin/advanced_disk_analyzer.png dist/tmp/plugin/
 cp plugin/install.json plugin/advanced_disk_analyzer.svg dist/tmp/plugin-tar/
 (cd dist/tmp/plugin-tar && tar -czf ../plugin/advanced_disk_analyzer-plugin.tar.gz install.json advanced_disk_analyzer.svg)
 cp plugin/install-plugin.sh plugin/uninstall-plugin.sh INSTALL.md dist/tmp/plugin/

@@ -1,5 +1,11 @@
 # Advanced Disk Analyzer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/kamranbhutto/disk-analyzer)](https://github.com/kamranbhutto/disk-analyzer/releases/latest)
+![cPanel & WHM](https://img.shields.io/badge/cPanel%20%26%20WHM-plugin-orange)
+![Linux](https://img.shields.io/badge/Linux-desktop-blue)
+
+Free and open-source disk space analyzer for **cPanel & WHM** and **Linux**.
 See exactly what is using your disk space: a folder tree with sizes, a colored
 map of every file, the largest files, duplicates, and (on cPanel) databases,
 email accounts, quota and inodes.
@@ -8,7 +14,7 @@ It comes in two editions that share the same interface:
 
 | Edition | For | Built with |
 |---|---|---|
-| [**cPanel**](cpanel/) | Any cPanel hosting account, or as a cPanel plugin on servers you manage | PHP 8 + SQLite |
+| [**cPanel & WHM**](cpanel/) | Hosting customers (cPanel) and server owners (WHM), or any single cPanel account | PHP 8 + SQLite |
 | [**Desktop**](desktop/) | Linux computers (Ubuntu and others) | Rust |
 
 ![Tree View: folders with sizes, file types and a colored map of every file](docs/screenshots/cpanel-tree-view.png)
@@ -31,10 +37,19 @@ It comes in two editions that share the same interface:
 - **cPanel only**: disk quota, inodes, databases, email accounts, and a
   breakdown of what the space is used for (website, email, databases, backups,
   logs, trash).
+- **WHM admin dashboard**: every account on the server in one table (disk,
+  inodes, % of limit, 30-day growth, owner, plan, suspended), server disks and
+  a usage-over-time chart. Search, filter ("over 90%") and CSV export.
+- **Quota alerts**: an hourly check emails the admin (and optionally the
+  account owner) when an account reaches 80% or 90% of its disk space or inodes.
 - **Fast**: the desktop edition scanned 1.4 million files (196 GB) in about 2
   seconds.
 
 ## Screenshots
+
+**WHM admin dashboard**: all accounts, server disks, growth and quota alerts.
+
+![WHM admin dashboard](docs/screenshots/whm-dashboard.png)
 
 **Account overview (cPanel)**: quota, inodes, what uses the space, databases and email accounts.
 
@@ -60,7 +75,22 @@ It comes in two editions that share the same interface:
 
 ## Quick start
 
-### cPanel (no root needed)
+### cPanel & WHM server (root): one command
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/kamranbhutto/disk-analyzer/main/cpanel/plugin/get.sh | sh
+```
+
+This adds **Advanced Disk Analyzer** to every cPanel account (Tools → Files)
+and to WHM (Plugins), and turns on the hourly quota alerts. Set the alert email
+in WHM → Plugins → Advanced Disk Analyzer.
+
+> **Beta:** the root/WHM install (cPanel Tools icon, WHM dashboard, alerts) is new in 1.1 and has been
+> tested against a simulated cPanel/WHM API, not yet on a live WHM server. Please
+> [report any problem](https://github.com/kamranbhutto/disk-analyzer/issues). The single-account
+> install below is tested on a live cPanel account.
+
+### Single cPanel account (no root needed)
 
 1. Download `advanced-disk-analyzer.zip` from the
    [latest release](https://github.com/kamranbhutto/disk-analyzer/releases/latest).
@@ -70,9 +100,8 @@ It comes in two editions that share the same interface:
    username and password.
 4. Click **Scan**.
 
-To add it to cPanel's **Tools** page as a real plugin (needs root/WHM), use
-`advanced-disk-analyzer-plugin.zip`. The full step-by-step guide is in
-[cpanel/INSTALL.md](cpanel/INSTALL.md).
+The full step-by-step guide, including manual plugin install and uninstall,
+is in [cpanel/INSTALL.md](cpanel/INSTALL.md).
 
 ### Desktop (Linux)
 
@@ -107,14 +136,25 @@ Then open **Advanced Disk Analyzer** from your app menu (or run
 ## Development
 
 ```sh
-# cPanel edition: 30 end-to-end checks (needs PHP 8 with pdo_sqlite)
-cd cpanel && python3 tests/test_app.py
+# cPanel & WHM edition (needs PHP 8 with pdo_sqlite)
+cd cpanel && python3 tests/test_app.py   # cPanel dashboard: 30 checks
+python3 tests/test_whm.py                # WHM dashboard and alerts: 23 checks
 ./build.sh            # creates dist/advanced-disk-analyzer*.zip
 
 # Desktop edition
 cd desktop && cargo test
 cargo run --release   # then open http://127.0.0.1:8790
 ```
+
+## Contributing
+
+Bug reports, ideas and pull requests are welcome: open an
+[issue](https://github.com/kamranbhutto/disk-analyzer/issues). See
+[CHANGELOG.md](CHANGELOG.md) for what changed in each version.
+
+## License
+
+[MIT](LICENSE): free to use, change and share, including commercially.
 
 ## Author
 

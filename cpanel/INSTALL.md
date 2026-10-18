@@ -9,7 +9,7 @@ There are two packages. Pick the one that matches your access:
 | You have | Use | Where it appears |
 |---|---|---|
 | A normal cPanel account (shared hosting) | `advanced-disk-analyzer.zip` | `https://your-domain/disk-analyzer/` |
-| Root access to the server (VPS/dedicated with WHM) | `advanced-disk-analyzer-plugin.zip` | cPanel → **Tools** → **Files** → **Advanced Disk Analyzer** |
+| Root access to the server (VPS/dedicated with WHM) | `advanced-disk-analyzer-plugin.zip` | cPanel → **Tools** → **Files**, and WHM → **Plugins** |
 
 Adding an icon to cPanel's Tools page is only possible with root access. On
 shared hosting, use option A (or ask your hosting company to install option B).
@@ -67,7 +67,22 @@ in your home folder.
 
 ---
 
-## B. Install as a real cPanel plugin (root / WHM), about 2 minutes
+## B. Install as a real cPanel & WHM plugin (root), about 2 minutes
+
+> **Beta:** the root/WHM install (cPanel Tools icon, WHM dashboard, alerts) is new in 1.1 and has been
+> tested against a simulated cPanel/WHM API, not yet on a live WHM server. Please
+> [report any problem](https://github.com/kamranbhutto/disk-analyzer/issues). The single-account
+> install (section A) is tested on a live cPanel account.
+
+**Fastest:** log in to the server as root (SSH, or WHM → **Terminal**) and run:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/kamranbhutto/disk-analyzer/main/cpanel/plugin/get.sh | sh
+```
+
+It downloads the latest release and does steps 1–2 below for you.
+
+**By hand:**
 
 1. Copy `advanced-disk-analyzer-plugin.zip` to the server, e.g.
    `scp advanced-disk-analyzer-plugin.zip root@your-server:/root/`
@@ -87,6 +102,21 @@ in your home folder.
 
 Each user only ever sees their own account: the plugin runs as the cPanel
 user, exactly like cPanel's own tools.
+
+### WHM admin dashboard and quota alerts
+
+The same install also adds **WHM → Plugins → Advanced Disk Analyzer** (root only):
+
+- Every account with disk used, limit, %, inodes, 30-day growth, owner, plan
+  and suspended status. Search, filter ("over 90%"), sort, CSV export.
+- Server disks and a chart of total account usage over time (one snapshot per day).
+- **Quota alerts**: set the alert levels (default 80% and 90%) and the email
+  address, and optionally also email the account owner. Checked every hour
+  (`/etc/cron.d/advanced_disk_analyzer`, log in `/var/log/advanced_disk_analyzer.log`).
+  Each level is reported once and resets when usage drops below it.
+  **Check now** runs it immediately.
+
+Settings and history are stored in `/var/cpanel/advanced_disk_analyzer/`.
 
 Uninstall: `sh advanced-disk-analyzer-plugin/uninstall-plugin.sh`
 

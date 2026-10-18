@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-const DA_VERSION = '1.0';
+const DA_VERSION = '1.1.0';
 const CHILD_LIMIT = 5000;
 const MAP_ITEMS = 60000;        // the treemap leaves out items smaller than total / MAP_ITEMS
 
